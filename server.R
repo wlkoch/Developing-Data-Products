@@ -6,16 +6,20 @@ library(rpart)
 shinyServer(
         function(input, output) {               
                 
+
+                # Read in data
                 mainData <- read.csv("IneqDataset.csv")
-                                
+                
+                # Calculate means for each variable across entire data set for comparison purposes
                 meanGini <- mean(mainData$GiniCoeff, na.rm = TRUE)
                 meanPov90_10 <- mean(mainData$PerRatio90_10, na.rm = TRUE)
                 meanPovChild2Par <- mean(mainData$ChildPovRatesTwoParentFam_50_percent, na.rm = TRUE)
                 meanPovChildSingMother <- mean(mainData$ChildPovRatesSingMothFam_50_percent, na.rm = TRUE)
                                
                 
-                 output$newScatterplot <- renderPlot({
-                         
+                output$newScatterplot <- renderPlot({
+                        
+                        # set up variables to be passed to plot function 
                         ctry <- input$id1 
                         meas <- input$id2
                         wave <- input$wave
@@ -23,6 +27,7 @@ shinyServer(
                         singleCountry <- subset(mainData, Country == ctry)
                         year <- singleCountry[wave,]$Year
                         
+                        #define parameters passed to plot function based upon ui input
                         if (meas == "GiniCoeff") { 
                                 ineqMeas <- singleCountry$GiniCoeff
                                 ineqDiff <- singleCountry[wave,]$GiniCoeff - meanGini
@@ -52,6 +57,7 @@ shinyServer(
                                 
                         }
                         
+                        # render the plot with chosen inputs from ui.R
                         plot(singleCountry$WaveNum,
                              ineqMeas,
                              ylim = ineqMeas_ylim,
@@ -74,6 +80,7 @@ shinyServer(
                                 abline(v=wave, lwd = 2, col = "blue")
                         }
                         
+                        # output a few results  
                         meanDiff <- paste("Deviation from cohort mean: ", round(ineqDiff, digits = 2))
                         output$meanDiff <- renderPrint({meanDiff})
                         waveYear <- paste("Wave year: ", year)

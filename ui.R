@@ -5,10 +5,14 @@ library(rpart)
 
 mainData <- read.csv("IneqDataset.csv")
 
-meanGini <- mean(mainData$GiniCoeff, na.rm = TRUE)
-meanPov90_10 <- mean(mainData$PerRatio90_10, na.rm = TRUE)
-meanPovChild2Par <- mean(mainData$ChildPovRatesTwoParentFam_50_percent, na.rm = TRUE)
-meanPovChildSingMother <- mean(mainData$ChildPovRatesSingMothFam_50_percent, na.rm = TRUE)
+#meanGini <- mean(mainData$GiniCoeff, na.rm = TRUE)
+#meanPov90_10 <- mean(mainData$PerRatio90_10, na.rm = TRUE)
+#meanPovChild2Par <- mean(mainData$ChildPovRatesTwoParentFam_50_percent, na.rm = TRUE)
+#meanPovChildSingMother <- mean(mainData$ChildPovRatesSingMothFam_50_percent, na.rm = TRUE)
+
+# Set up inputs to server.R plotting output 
+# Use radio buttons to select country and inequality measure to view
+# Use input from the slider function to select the particular wave/year 
 
 shinyUI(pageWithSidebar(
   headerPanel("Cross-national Income Inequality Comparisons"),
@@ -43,20 +47,6 @@ shinyUI(pageWithSidebar(
 ))
 
 
-
-
-
-# Original code
-
-#shinyUI(pageWithSidebar(
-#  headerPanel("Example plot"),
-#  sidebarPanel(
-#    sliderInput('mu', 'Guess at the mu',value = 70, min = 60, max = 80, step = 0.05,)
-#  ),
-#  mainPanel(
-#    plotOutput('newHist')
-#  )
-#))
 
 
 
